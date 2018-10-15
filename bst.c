@@ -55,46 +55,90 @@ void print(tree_node *node) {
 
 tree_node *search(tree_node *node, int value) {
     tree_node *tmp = NULL;
+    boolean found = false;
     while (node != NULL) {
         if (value < node->value) {
+            tmp = node;
             node = node->left;
         } else if (value > node->value) {
+            tmp = node;
             node = node->right;
         } else {
-            tmp = node;
+            found = true;
+
+            if (tmp == NULL) {
+                tmp = node;
+                tmp->position = ROOT;
+            }
+
+            // return parent node if target found
             break;
         }
     }
-    return tmp;
+
+    if (found) {
+        return tmp;
+    } else {
+        return NULL;
+    }
 }
 
 tree_node *delete(tree_node *node, int value) {
-    while (node != NULL) {
-        tree_node *parent = node;
-        if (value < node->value) {
-            node = node->left;
-        } else if (value > node->value) {
-            node = node->right;
-        } else {
-            // start delete
-            if (node->left == NULL && node->right == NULL) {
-                // no children
-                node = NULL;
-            } else if (node->left == NULL || node->right == NULL) {
-                if (node->left != NULL) {
-                    // no right child
-                    node = node->left;
-                } else {
-                    // no left child
-                    node = node->right;
-                }
-            } else {
-                // find the largest number in left tree recursively
-                delete(node->left, value);
-            }
-        }
+    tree_node *parent = search(node, value);
+    tree_node *target = NULL;
+
+    if (parent == NULL) {
+        // target node not found
+        printf("absent\n");
+        return NULL;
     }
 
+    // find target node
+    if (parent->left != NULL && parent->left->value == value) {
+        target = parent->left;
+        target->position = LEFT_NODE;
+    } else if (parent->right != NULL && parent->right->value == value) {
+        target = parent->right;
+        target->position = RIGHT_NODE;
+    } else if (parent->position == ROOT && parent->value == value) {
+        // root node
+        target = parent;
+    } else {
+        return node;
+    }
+
+    if (target->left == NULL && target->right == NULL) {
+        // leaf node
+        if (target->position == LEFT_NODE) {
+            parent->left = NULL;
+        } else if (target->position == RIGHT_NODE) {
+            parent->right = NULL;
+        } else if (target->position == ROOT) {
+            node = NULL;
+        }
+        free(target);
+    } else if (target->left == NULL) {
+        // no left tree
+        parent->right = target->right;
+        free(target);
+    } else if (target->right == NULL) {
+        // no right tree
+        parent->left = target->left;
+        free(target);
+    } else {
+        // left tree and right tree exists, find the largest number in the left tree.
+        tree_node *tmp = target->left;
+        while (tmp->right != NULL) {
+            parent = tmp;
+            tmp = tmp->right;
+        }
+
+        target->value = tmp->value;
+        parent->right = NULL;
+        free(tmp);
+    }
+
+    printf("deleted\n");
     return node;
 }
 

@@ -5,10 +5,16 @@
 #define true 1
 #define false 0
 
+#define LEFT_NODE (-1)
+#define RIGHT_NODE 1
+#define ROOT 0
+
 typedef struct Node tree_node;
 
 struct Node {
     int value;
+    int position;
+
     struct Node *left, *right;
 };
 

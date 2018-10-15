@@ -64,7 +64,6 @@ void test_bst(int argc, char *argv[]) {
             value = atoi(line[1]);
         }
 
-//        printf("command = %c\n", command);
         if (command == 'i') {
             if (tree == NULL) {
                 tree = createNode(value);
