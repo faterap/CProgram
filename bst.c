@@ -3,8 +3,8 @@
 
 #include "bst.h"
 
-struct Node *createNode(int item) {
-    struct Node *temp = (struct Node *) malloc(sizeof(struct Node));
+tree_node *createNode(int item) {
+    tree_node *temp = (tree_node *) malloc(sizeof(tree_node));
     temp->value = item;
     temp->left = NULL;
     temp->right = NULL;
@@ -12,7 +12,7 @@ struct Node *createNode(int item) {
     return temp;
 }
 
-struct Node *insert(struct Node *node, int key) {
+tree_node *insert(tree_node *node, int key) {
     if (node == NULL) {
         node = createNode(key);
         return node;
@@ -29,7 +29,7 @@ struct Node *insert(struct Node *node, int key) {
     return node;
 }
 
-void print(struct Node *node) {
+void print(tree_node *node) {
     if (node == NULL) {
         printf("");
     } else {
@@ -53,10 +53,9 @@ void print(struct Node *node) {
     }
 }
 
-void search(struct Node *node, int value) {
+void search(tree_node *node, int value) {
     boolean found = false;
     while (node != NULL) {
-        printf("value = %d\n", value);
         if (value < node->value) {
             node = node->left;
         } else if (value > node->value) {
@@ -74,8 +73,9 @@ void search(struct Node *node, int value) {
     }
 }
 
-struct Node *delete(struct Node *node, int value) {
+tree_node *delete(tree_node *node, int value) {
     while (node != NULL) {
+        tree_node *parent = node;
         if (value < node->value) {
             node = node->left;
         } else if (value > node->value) {

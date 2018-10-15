@@ -4,15 +4,15 @@
 
 #include "std.h"
 
-struct l_node *create_l_node(double value) {
-    struct l_node *temp = malloc(sizeof(struct l_node));
+list_node *create_l_node(double value) {
+    list_node *temp = malloc(sizeof(list_node));
     temp->value = value;
     temp->next = NULL;
     return temp;
 }
 
-struct l_node *insert_l_node(struct l_node *list, double value) {
-    struct l_node *new_node = create_l_node(value);
+list_node *insert_l_node(list_node *list, double value) {
+    list_node *new_node = create_l_node(value);
     if (list == NULL) {
         return new_node;
     }
@@ -25,7 +25,7 @@ struct l_node *insert_l_node(struct l_node *list, double value) {
     return list;
 }
 
-int get_count(struct l_node *node) {
+int get_count(list_node *node) {
     int count = 0;
     while (node != NULL) {
         count++;
@@ -34,7 +34,7 @@ int get_count(struct l_node *node) {
     return count;
 }
 
-int get_average(struct l_node *node) {
+int get_average(list_node *node) {
     int count = get_count(node);
     double sum = 0;
 
@@ -49,7 +49,7 @@ int get_average(struct l_node *node) {
     return average;
 }
 
-int get_deviation(struct l_node *node) {
+int get_deviation(list_node *node) {
     int average = get_average(node);
     int count = get_count(node);
     int deviation = 0;

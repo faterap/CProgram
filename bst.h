@@ -5,19 +5,21 @@
 #define true 1
 #define false 0
 
+typedef struct Node tree_node;
+
 struct Node {
     int value;
     struct Node *left, *right;
 };
 
-struct Node *createNode(int item);
+tree_node *createNode(int item);
 
-struct Node *insert(struct Node *node, int key);
+tree_node *insert(tree_node *node, int key);
 
-void print(struct Node *node);
+void print(tree_node *node);
 
-void search(struct Node *node, int value);
+void search(tree_node *node, int value);
 
-struct Node *delete(struct Node *node, int value);
+tree_node *delete(tree_node *node, int value);
 
 #endif //C_BST_H

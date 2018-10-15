@@ -1,5 +1,3 @@
-#define _GNU_SOURCE
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,10 +5,6 @@
 #include "bst.h"
 #include "std.h"
 #include "life.h"
-
-#define boolean int
-#define true 1
-#define false 0
 
 const int BUFFER_SIZE = 1024;
 
@@ -25,8 +19,8 @@ char **split(char str[], char delims[]);
 // TO PIG: 相对路径要在CMakeLists.txt中写一句话才可以生效:
 // set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "~/CLionProjects/c")，引号的路径就是你所在项目下的路径，不然相对路径会提示找不到文件。
 int main(int argc, char *argv[]) {
-//    test_bst(argc, argv);
-    test_std(argc, argv);
+    test_bst(argc, argv);
+//    test_std(argc, argv);
 //    test_life(argc, argv);
     return 0;
 }
@@ -54,7 +48,6 @@ char **split(char str[], char delims[]) {
     return res;
 }
 
-// NOT TEST YET
 void test_bst(int argc, char *argv[]) {
     struct Node *tree = NULL;
 
@@ -96,7 +89,6 @@ void test_bst(int argc, char *argv[]) {
     free(buffer);
 }
 
-// NOT TEST YET
 void test_std(int argc, char *argv[]) {
     char *buffer = (char *) malloc(BUFFER_SIZE * sizeof(char));
     struct l_node *list = NULL;
