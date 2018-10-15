@@ -18,7 +18,7 @@ tree_node *insert(tree_node *node, int key);
 
 void print(tree_node *node);
 
-void search(tree_node *node, int value);
+tree_node *search(tree_node *node, int value);
 
 tree_node *delete(tree_node *node, int value);
 

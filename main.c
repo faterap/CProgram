@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
 char **split(char str[], char delims[]) {
     char **res = NULL;
     char *p = strtok(str, delims);
-    int n_spaces = 0, i;
+    int n_spaces = 0;
 
     while (p) {
         res = realloc(res, sizeof(char *) * ++n_spaces);
@@ -72,7 +72,12 @@ void test_bst(int argc, char *argv[]) {
                 insert(tree, value);
             }
         } else if (command == 's') {
-            search(tree, value);
+            tree_node *node = search(tree, value);
+            if (node != NULL) {
+                printf("present\n");
+            } else {
+                printf("absent\n");
+            }
         } else if (command == 'd') {
             delete(tree, value);
         } else if (command == 'p') {

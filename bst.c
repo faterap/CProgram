@@ -53,24 +53,19 @@ void print(tree_node *node) {
     }
 }
 
-void search(tree_node *node, int value) {
-    boolean found = false;
+tree_node *search(tree_node *node, int value) {
+    tree_node *tmp = NULL;
     while (node != NULL) {
         if (value < node->value) {
             node = node->left;
         } else if (value > node->value) {
             node = node->right;
         } else {
-            found = true;
+            tmp = node;
             break;
         }
     }
-
-    if (found) {
-        printf("present\n");
-    } else {
-        printf("absent\n");
-    }
+    return tmp;
 }
 
 tree_node *delete(tree_node *node, int value) {
