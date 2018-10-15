@@ -126,19 +126,9 @@ void test_std(int argc, char *argv[]) {
             break;
         }
 
-        // negative or not
-        boolean negative = false;
-        if (buffer[0] == '-') {
-            negative = true;
-        }
-
         // get actual number
         double d_value = 0;
-        if (negative) {
-            d_value = -atof(buffer);
-        } else {
-            d_value = atof(buffer);
-        }
+        d_value = atof(buffer);
 
         // add number to list
         if (list == NULL) {
