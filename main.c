@@ -1,4 +1,5 @@
 #define _GNU_SOURCE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -70,7 +71,7 @@ void test_bst(int argc, char *argv[]) {
             value = atoi(line[1]);
         }
 
-        printf("command = %c\n", command);
+//        printf("command = %c\n", command);
         if (command == 'i') {
             if (tree == NULL) {
                 tree = createNode(value);
@@ -92,37 +93,18 @@ void test_bst(int argc, char *argv[]) {
     }
 
     free(tree);
+    free(buffer);
 }
 
 // NOT TEST YET
 void test_std(int argc, char *argv[]) {
-    boolean r_from_file = false;
-    FILE *fp = NULL;
-    if (argv[1] != NULL && argv[2] != NULL) {
-        char *file_name = argv[2];
-        fp = freopen(file_name, "r", stdin);
-        r_from_file = true;
-    } else {
-        r_from_file = false;
-    }
-
     char *buffer = (char *) malloc(BUFFER_SIZE * sizeof(char));
     struct l_node *list = NULL;
     while (1) {
-        if (r_from_file) {
-            // read from file
-            fscanf(fp, "%s", buffer);
-        } else {
-            // read from console
-            fgets(buffer, BUFFER_SIZE, stdin);
-        }
+        // read from console
+        fgets(buffer, BUFFER_SIZE, stdin);
 
         if (strncmp(buffer, "#", 1) == 0) {
-            if (r_from_file) {
-                // close file pointer
-                fclose(fp);
-            }
-
             break;
         }
 
@@ -138,10 +120,16 @@ void test_std(int argc, char *argv[]) {
         }
     }
 
-    int average = get_average(list);
-    int deviation = get_deviation(list);
-    printf("mean: %d\n", average);
-    printf("stddev: %d\n", deviation);
+    int count = get_count(list);
+
+    if (count != 0) {
+        int average = get_average(list);
+        int deviation = get_deviation(list);
+        printf("mean: %d\n", average);
+        printf("stddev: %d\n", deviation);
+    } else {
+        printf("no data\n");
+    }
 
     free(list);
     free(buffer);
