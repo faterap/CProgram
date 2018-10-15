@@ -26,6 +26,6 @@ void print(tree_node *node);
 
 tree_node *search(tree_node *node, int value);
 
-tree_node *delete(tree_node *node, int value);
+tree_node *delete(tree_node **node, int value);
 
 #endif //C_BST_H

@@ -57,20 +57,41 @@ void test_bst(int argc, char *argv[]) {
         fgets(buffer, BUFFER_SIZE, stdin);
 
         char **line = split(buffer, " ");
-        char command = line[0][0];
 
+        char command = line[0][0];
         int value = 0;
-        if (line[1] != NULL) {
-            value = atoi(line[1]);
-        }
 
         if (command == 'i') {
+            if (line[1] == NULL) {
+                // only one parameter
+                fprintf(stderr, "illegal input\n");
+                exit(-1);
+            } else if (line[2] != NULL) {
+                // more than 2 parameter
+                fprintf(stderr, "illegal input\n");
+                exit(-1);
+            }
+
+            value = atoi(line[1]);
+
             if (tree == NULL) {
                 tree = createNode(value);
             } else {
                 insert(tree, value);
             }
         } else if (command == 's') {
+            if (line[1] == NULL) {
+                // only one parameter
+                fprintf(stderr, "illegal input\n");
+                exit(-1);
+            } else if (line[2] != NULL) {
+                // more than 2 parameter
+                fprintf(stderr, "illegal input\n");
+                exit(-1);
+            }
+
+            value = atoi(line[1]);
+
             tree_node *node = search(tree, value);
             if (node != NULL) {
                 printf("present\n");
@@ -78,10 +99,33 @@ void test_bst(int argc, char *argv[]) {
                 printf("absent\n");
             }
         } else if (command == 'd') {
-            delete(tree, value);
+            if (line[1] == NULL) {
+                // only one parameter
+                fprintf(stderr, "illegal input\n");
+                exit(-1);
+            } else if (line[2] != NULL) {
+                // more than 2 parameter
+                fprintf(stderr, "illegal input\n");
+                exit(-1);
+            }
+
+            value = atoi(line[1]);
+
+            delete(&tree, value);
         } else if (command == 'p') {
+            if (line[1] != NULL) {
+                // more than one parameter
+                fprintf(stderr, "illegal input\n");
+                exit(-1);
+            }
+
             print(tree);
         } else if (command == '#') {
+            if (line[1] != NULL) {
+                // more than one parameter
+                fprintf(stderr, "illegal input\n");
+                exit(-1);
+            }
             break;
         } else {
             fprintf(stderr, "illegal input\n");

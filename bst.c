@@ -83,8 +83,8 @@ tree_node *search(tree_node *node, int value) {
     }
 }
 
-tree_node *delete(tree_node *node, int value) {
-    tree_node *parent = search(node, value);
+tree_node *delete(tree_node **node, int value) {
+    tree_node *parent = search(*node, value);
     tree_node *target = NULL;
 
     if (parent == NULL) {
@@ -104,7 +104,7 @@ tree_node *delete(tree_node *node, int value) {
         // root node
         target = parent;
     } else {
-        return node;
+        return *node;
     }
 
     if (target->left == NULL && target->right == NULL) {
@@ -114,31 +114,51 @@ tree_node *delete(tree_node *node, int value) {
         } else if (target->position == RIGHT_NODE) {
             parent->right = NULL;
         } else if (target->position == ROOT) {
-            node = NULL;
+            // delete root node
+            *node = NULL;
         }
         free(target);
     } else if (target->left == NULL) {
-        // no left tree
-        parent->right = target->right;
+        if (target->position == ROOT) {
+            //delete root node
+            *node = target->right;
+            target->right = NULL;
+        } else {
+            // no left tree
+            parent->right = target->right;
+        }
         free(target);
     } else if (target->right == NULL) {
-        // no right tree
-        parent->left = target->left;
+        if (target->position == ROOT) {
+            *node = target->left;
+            target->left = NULL;
+        } else {
+            // no right tree
+            parent->left = target->left;
+        }
+
         free(target);
     } else {
         // left tree and right tree exists, find the largest number in the left tree.
         tree_node *tmp = target->left;
-        while (tmp->right != NULL) {
-            parent = tmp;
-            tmp = tmp->right;
+
+        if (tmp->right == NULL) {
+            // left node is largest since it does not have a right tree
+            target->value = tmp->value;
+            target->left = NULL;
+        } else {
+            while (tmp->right != NULL) {
+                parent = tmp;
+                tmp = tmp->right;
+            }
+            target->value = tmp->value;
+            parent->right = NULL;
         }
 
-        target->value = tmp->value;
-        parent->right = NULL;
         free(tmp);
     }
 
     printf("deleted\n");
-    return node;
+    return *node;
 }
 
